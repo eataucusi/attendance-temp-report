@@ -1,0 +1,69 @@
+<?php /* @var $this \NsCore\View */ ?>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex"/>
+        <title>Registro de Participantes</title>  
+        <base href="<?= SITE_URL ?>">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="stylesheet" href="views/_theme/css/table.css">
+        <script src="views/_theme/js/jquery-3.5.1.min.js"></script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .report{
+                margin-top: 10px;
+            }
+            .center{
+                text-align: center !important;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 style="text-align: center">Registro de Participantes</h2>
+        <p style="text-align: center">Periodo: <?= $period ?></p>
+        <div class="table-responsive">
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>DNI</th><th>Apellidos y Nombres</th>
+                        <?php for ($i = 0; $i < $days; $i++) : ?>
+                            <th class="center"><?= $date->format('d') ?></th>
+                            <?php $date->add(new DateInterval('P1D')) ?>
+                        <?php endfor; ?>
+                        <?php $date->sub(new DateInterval('P' . $days . "D")) ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php for ($i = 0; $i < count($users); $i++): ?>
+                        <tr>
+                            <td><?= $users[$i]['dni'] ?></td><td><?= $users[$i]['name'] ?></td>
+                            <?php for ($j = 0; $j < $days; $j++) : ?>
+                                <?php
+                                $pos = array_search($date->format('Y-m-d'), array_column($asis[$i], 'date'));
+                                ?>
+                                <td class="center"><?= $pos === false ? '.' : 'X' ?></td>
+                                <?php $date->add(new DateInterval('P1D')); ?>
+                            <?php endfor; ?>   
+                            <?php $date->sub(new DateInterval('P' . $days . 'D')) ?>
+                        </tr>
+                    <?php endfor; ?>
+                </tbody>
+            </table>
+        </div>
+        <p class="print" style="text-align: center; margin-top: 10px">
+            <a href="<?= \NsCore\Route::$url ?>" target="_blank" class="btn btn-primary"><i class="icon-print"></i>Imprimir</a>
+        </p>
+        <script>
+            if ($('#fecha').length == 0) {
+                $('.print').hide();
+                window.print();
+            }
+        </script>
+    </body>
+</html>

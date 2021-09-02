@@ -1,0 +1,24 @@
+/*
+    Archivo views/_theme/css/_variables.css
+    Copyright (c) 2020
+    Author ITEC Andahuaylas. <itec.andahuaylas@gmail.com>
+    License https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)
+*/
+/*
+Variables de la hoja de estilos
+*/
+:root{    
+    --light: #f2f2f2; 
+    --blue: #1fa2bf;
+    --blue-medium: #2192bf;
+    --blue-dark: #071a40;
+    --light-medium: #dddddd;  
+    --white: #ffffff;
+    --b-shadow: 0 7px 14px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+    --f-family: 'Merri', sans-serif;
+}
+
+@font-face{
+    font-family: 'Merri';
+    src: url(../font/Merriweather-Regular.ttf);
+}

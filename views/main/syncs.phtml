@@ -1,0 +1,27 @@
+<?php /* @var $this \NsCore\View */ ?>
+<div class="container"> 
+    <h2>Eventos de sincronización</h2>
+    <?php if (\Session::exist('message')): ?>
+        <div class="alert-success"><?= \Session::get_remove('message') ?></div>
+    <?php endif; ?>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha y hora</th><th></th>
+            </tr>       
+        </thead>
+        <tbody>
+            <?php for ($i = 0; $i < count($data); $i++) : ?>
+                <tr><td><?= \Helper::date_format($data[$i]['date'], 'Y-m-d H:i:s', 'd-m-Y H:i') ?></td>
+                    <td>
+                        <?php if ($data[$i]['current'] == 'Si'): ?>
+                            Predeterminado
+                        <?php else: ?>
+                            <a href="main/current/<?= $data[$i]['id'], '?_token=', \Input::get_token('index-current') ?>">Predeterminar</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endfor; ?>
+        </tbody>        
+    </table>    
+</div>

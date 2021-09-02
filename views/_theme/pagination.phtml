@@ -1,0 +1,29 @@
+<?php
+if ($number_pages > 1) {
+    if ($current < 5) {
+        $min = 1;
+        $length = min([$number_pages, 9]);
+    } elseif ($number_pages - $current < 5) {
+        $length = $number_pages;
+        $min = max([$number_pages - 8, 1]);
+    } else {
+        $min = max([1, $current - 4]);
+        $length = min([$number_pages, $current + 4]);
+    }
+    ?>
+    <nav>
+        <?php if ($current > 1) : ?>
+            <a href="<?= $route . ($current - 1) . $after_route ?>" title="Anterior">&#10094;</a>
+        <?php endif; ?>
+        <?php for ($i = $min; $i < $current; $i++) : ?>
+            <a href="<?= $route . $i . $after_route ?>"><?= $i ?> </a>
+        <?php endfor; ?>
+        <span class="current"><?= $current ?></span>
+        <?php for ($i = $current + 1; $i <= $length; $i++) : ?>
+            <a href="<?= $route . $i . $after_route ?>"><?= $i ?></a>
+        <?php endfor; ?>
+        <?php if ($current < $number_pages) : ?>
+            <a href="<?= $route . ($current + 1) . $after_route ?>" title="Siguiente">&#10095;</a>
+        <?php endif; ?>
+    </nav>
+<?php } ?>

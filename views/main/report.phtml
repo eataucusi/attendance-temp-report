@@ -1,0 +1,124 @@
+<?php /* @var $this \NsCore\View */ ?>
+<div class="container"> 
+    <div class="ear-tab">
+        <div class="tabs row">
+            <div class="col"><a href="main/report#temperatura">Alerta</a></div>
+            <div class="col"><a href="main/report#asistencia">Asistencia Diaria</a></div>
+            <div class="col"><a href="main/report#periodo">Asistencia (Periodo)</a></div>
+            <div class="col"><a href="main/report#seguimiento">Seguimiento de temperatura</a></div>
+        </div>
+        <div class="tab-target">
+            <div class="tab-content">
+                <table class="table">
+                    <thead>
+                        <tr><th>Apellidos y Nombres</th><th>Fecha</th><th>Temperatura</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($i = 0; $i < count($alert); $i++) : ?>
+                            <tr>
+                                <td><?= $alert[$i]['name'] ?></td>
+                                <td><?= $alert[$i]['date'] ?></td>
+                                <td><?= $alert[$i]['temp'] ?></td>
+                                <td class="show-evo"><a href="#" data-id="<?= $alert[$i]['id'] ?>">Ver evolución</a></td>
+                            </tr>
+                        <?php endfor; ?>                        
+                    </tbody>
+                </table>                
+            </div>
+            <div class="tab-content">
+                <form method="post"  autocomplete="off" class="scorm-add" action="main/daily/">
+                    <input type="hidden" name="_token" value="<?= \Input::get_token('main-daily') ?>">
+                    <div class="input-group">
+                        <label class="input-group-prepend" for="fecha"><i class="icon-calendar"></i>Fecha</label>
+                        <input type="text" class="form-control" id="fecha" placeholder="Elija fecha" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="form-check">
+                            <label><input type="checkbox" id="time">Incluir tiempo</label>                            
+                        </div>
+                    </div>                    
+                    <button type="submit" class="btn btn-success"><i class="icon-search"></i>Buscar</button>
+                </form>
+                <div class="report"></div>
+            </div>
+            <div class="tab-content">
+                <form method="post"  autocomplete="off" class="scorm-add" action="main/period/">
+                    <input type="hidden" name="_token" value="<?= \Input::get_token('main-daily') ?>">
+                    <div class="input-group">
+                        <label class="input-group-prepend" for="inicio"><i class="icon-calendar"></i>Periodo</label>
+                        <input type="text" class="form-control" id="inicio" placeholder="Fecha inicial" required>
+                        <input type="text" class="form-control" id="final" placeholder="Fecha final" required>
+                    </div>                    
+                    <button type="submit" class="btn btn-success"><i class="icon-search"></i>Buscar</button>
+                </form>
+                <div class="report"></div>
+            </div>
+            <div class="tab-content">
+                <form method="post"  autocomplete="off" class="scorm-add" action="main/temp/">
+                    <input type="hidden" name="_token" value="<?= \Input::get_token('main-temp') ?>">
+                    <div class="input-group">
+                        <label class="input-group-prepend" for="inicio"><i class="icon-user"></i>Participante</label>
+                        <select class="form-control" id="user_id">
+                            <?php for ($i = 0; $i < count($users); $i++) : ?> 
+                                <option value="<?= $users[$i]['id'] ?>"><?= $users[$i]['name'] ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>                    
+                    <button type="submit" class="btn btn-success"><i class="icon-search"></i>Mostrar</button>
+                </form>                
+                <div class="report"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $('#fecha').datepicker({
+        format: 'dd-mm-yyyy', autoHide: true, startDate: '26-10-2020', endDate: '13-11-2020'
+    });
+    _inicio = $('#inicio');
+    _final = $('#final');
+    _inicio.datepicker({
+        format: 'dd-mm-yyyy', autoHide: true, startDate: '26-10-2020', endDate: '13-11-2020'
+    });
+    _final.datepicker({
+        format: 'dd-mm-yyyy', autoHide: true, startDate: _inicio.datepicker('getDate'), endDate: '13-11-2020'
+    });
+    _inicio.on('change', function () {
+        _final.datepicker('setStartDate', _inicio.datepicker('getDate'));
+    });
+
+    $('form').on('submit', function (evt) {
+        evt.preventDefault();
+        _root = $(this);
+        if (_root.find('#fecha').length) {
+            if (_root.find('#time').prop('checked')) {
+                _url = _root.attr('action') + _root.find('#fecha').val() + '/time';
+            } else {
+                _url = _root.attr('action') + _root.find('#fecha').val();
+            }
+        } else if (_root.find('#inicio').length) {
+            _url = _root.attr('action') + _root.find('#inicio').val() + '/' + _root.find('#final').val();
+        } else {
+            _url = _root.attr('action') + _root.find('#user_id').val();
+        }
+		_root.siblings('.report').hide();
+        $.ajax({
+            url: _url,
+            type: 'POST',
+            success: function (data) {
+                _root.siblings('.report').html(data);
+				_root.siblings('.report').fadeIn(1000);
+            }
+        });
+    });
+
+    $('td.show-evo').on('click', 'a', function (evt) {
+        evt.preventDefault();
+        $('#user_id').find('option[value=' + $(this).data('id') + ']').prop('selected', true);
+        $('.col a')[3].click();
+        $('.tab-content form button')[2].click();
+    });
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

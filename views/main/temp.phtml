@@ -1,0 +1,35 @@
+<?php /* @var $this \NsCore\View */ ?>
+<div id="chart_div"></div>
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawBackgroundColor);
+
+    function drawBackgroundColor() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Fecha');
+        data.addColumn('number', 'Temperatura');
+        data.addColumn('number', 'Referencial a fiebre')
+
+        data.addRows([
+<?php for ($i = 0; $i < count($data); $i++) : ?>
+                ["<?= Helper::date_format($data[$i]['date'], 'Y-m-d', 'd M') ?>", <?= $data[$i]['temp'] ?>, 38],
+<?php endfor; ?>
+        ]);
+
+        var options = {
+            hAxis: {
+                title: 'Fecha'
+            },
+            vAxis: {
+                title: 'Temperatura °C'
+            },
+            legend: {position: 'top', alignment: 'center'},
+            seriesType: 'area',
+            series: {1: {type: 'line', color: 'red'}}
+			
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>

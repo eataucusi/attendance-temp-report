@@ -1,0 +1,82 @@
+<?php /* @var $this \NsCore\View */ ?>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex"/>
+        <title>Registro de Participantes</title>  
+        <base href="<?= SITE_URL ?>">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="stylesheet" href="views/_theme/css/table.css">
+        <script src="views/_theme/js/jquery-3.5.1.min.js"></script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .report{
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 style="text-align: center">Registro de Participantes</h2>
+        <p style="text-align: center">Fecha: <?= $date ?></p>
+        <?php if ($time): ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">DNI</th><th rowspan="2">Apellidos y Nombres</th><th colspan="2">Asistencia</th><th colspan="2">Temperatura</th>
+                    </tr>
+                    <tr>
+                        <th>Hora de ingreso</th><th>Tiempo de registro</th><th>°C</th><th>Tiempo de medición</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php for ($i = 0; $i < count($data); $i++): ?>
+                        <tr>
+                            <td><?= $data[$i]['dni'] ?></td><td><?= $data[$i]['name'] ?></td>
+                            <td><?= $data[$i]['hour'] < 10 ? '0' : '', $data[$i]['hour'], ':', $data[$i]['min'] < 10 ? '0' : '', $data[$i]['min'] ?>
+                            </td><td><?= $data[$i]['detect'] ?></td><td><?= $data[$i]['temp'] ?></td><td><?= $data[$i]['gauge'] ?></td>
+                        </tr>
+                    <?php endfor; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">DNI</th><th rowspan="2">Apellidos y Nombres</th><th>Asistencia</th><th>Temperatura</th>
+                    </tr>
+                    <tr>
+                        <th>Hora de ingreso</th><th>°C</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php for ($i = 0; $i < count($data); $i++): ?>
+                        <tr>
+                            <td><?= $data[$i]['dni'] ?></td><td><?= $data[$i]['name'] ?></td>
+                            <td><?= $data[$i]['hour'] < 10 ? '0' : '', $data[$i]['hour'], ':', $data[$i]['min'] < 10 ? '0' : '', $data[$i]['min'] ?>
+                            </td><td class="opc"><a href="#" title="Ver evolución" data-id="<?= $data[$i]['user_id'] ?>" <?= $data[$i]['temp']>38? 'style="color:red"':'' ?>><?= $data[$i]['temp'] ?></a></td>
+                        </tr>
+                    <?php endfor; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+        <p class="print" style="text-align: center; margin-top: 10px">
+            <a href="<?= \NsCore\Route::$url ?>" target="_blank" class="btn btn-primary"><i class="icon-print"></i>Imprimir</a>
+        </p>
+        <script>
+            if ($('#fecha').length == 0) {
+                $('.print').hide();
+                window.print();
+            }
+            $('td.opc').on('click', 'a', function (evt) {
+                evt.preventDefault();
+                $('#user_id').find('option[value=' + $(this).data('id') + ']').prop('selected', true);
+                $('.col a')[3].click();
+                $('.tab-content form button')[2].click();
+            });
+        </script>
+    </body>
+</html>

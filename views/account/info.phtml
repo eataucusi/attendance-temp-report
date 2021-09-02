@@ -1,0 +1,44 @@
+<?php /* @var $this \NsCore\View */ ?>
+<div class="container"> 
+    <h2>Mis datos</h2>
+    <p><a href="account/password">Cambiar contraseña</a></p>    
+    <form method="post"  autocomplete="off" class="scorm-add">
+        <?php if (\Session::exist('message')): ?>
+            <div class="alert-success"><?= \Session::get_remove('message') ?></div>
+        <?php endif; ?>
+        <input type="hidden" name="_token" value="<?= \Input::get_token('account-info') ?>">
+        <div class="form-group">
+            <label for="user_name">Nombre completo</label>
+            <input type="text" class="form-control <?= \Input::was_invalid('user_name') ? 'is-invalid' : '' ?>" name="user_name" id="user_name" required value="<?= \Input::value('user_name') ?>">
+            <?php if (\Input::was_invalid('user_name')): ?>
+                <div class="invalid-feedback">
+                    <?= \Input::get_error('user_name') ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="form-group">
+            <label for="user_login">Nombre de usuario</label>
+            <input type="text" class="form-control <?= \Input::was_invalid('user_login') ? 'is-invalid' : '' ?>" name="user_login" id="user_login" required value="<?= \Input::value('user_login') ?>">
+            <?php if (\Input::was_invalid('user_login')): ?>
+                <div class="invalid-feedback">
+                    <?= \Input::get_error('user_login') ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="form-group">
+            <label for="user_email">Correo electrónico</label>
+            <input type="text" class="form-control <?= \Input::was_invalid('user_email') ? 'is-invalid' : '' ?>" name="user_email" id="user_email" required value="<?= \Input::value('user_email') ?>">
+            <?php if (\Input::was_invalid('user_email')): ?>
+                <div class="invalid-feedback">
+                    <?= \Input::get_error('user_email') ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php if (\Input::error_exist()): ?>
+            <div class="alert-danger">
+                <div><?= implode('</div><div>', \Input::get_form_errors()) ?></div>
+            </div>
+        <?php endif; ?>
+        <button type="submit" class="btn btn-success"><i class="icon-floppy"></i> Guardar</button>
+    </form>
+</div>

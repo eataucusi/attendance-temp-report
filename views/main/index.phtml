@@ -1,0 +1,27 @@
+<?php /* @var $this \NsCore\View */ ?>
+<div class="container"> 
+    <h2>Resumen</h2>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Evento', 'Número de veces'],
+                ['Acceso correcto', <?= $correct ?>],
+                ['Fiebre (> 38 °C)', <?= $temperature ?>],
+                ['Sin mascarilla', <?= $mask ?>],
+                ['No registrado', <?= $unknow ?>]
+            ]);
+
+            var options = {
+                title: 'Eventos en el control de acceso',
+                legend: {position: 'right', alignment: 'center'}
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <div id="piechart" style="height: 650px;"></div>
+</div>
