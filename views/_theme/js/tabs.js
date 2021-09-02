@@ -1,12 +1,14 @@
-/** 
+/**
  * Archivo views/_theme/js/tabs.js
  * 
  * Sistema de tabs
  * 
- * @license https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)
- * @author ITEC Andahuaylas. <itec.andahuaylas@gmail.com>
- * @version 1.0 11/02/2020 02:38:53
+ * @copyright (c) 2020
+ * @author Edison Ataucusi Romero <eataucusis@gmail.com>
+ * @license http://creativecommons.org/licenses/by-sa/4.0/ Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional
  */
+
+
 $(function () {
     $('.ear-tab .tabs .col').on('click', 'a', function (evt) {
         if ($(this).parent('.disabled').length) {
