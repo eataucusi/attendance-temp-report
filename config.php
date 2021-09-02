@@ -19,7 +19,7 @@
  */
 
 /** Url base de la aplicación */
-const SITE_URL = 'http://192.168.1.33/acr/';
+const SITE_URL = 'https://edisonat.com/';
 
 /** Url base de la aplicación */
 const SITE_NAME = 'Control de acceso';
