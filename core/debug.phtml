@@ -1,0 +1,83 @@
+<!DOCTYPE html><?php /* @var $this \NsCore\View */ ?>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <base href="<?= SITE_URL ?>">
+        <title>Oops ha ocurrido un error</title> 
+        <meta name="robots" content="noindex, nofollow">
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            html, body{
+                height: 100%;
+                width: 100%;
+            }
+            body{
+                font-family: "Times New Roman", Times, serif;
+                font-size: 1.2rem;
+            }
+            h1{
+                padding: 10px;
+                color: #F96263;
+            }
+            article{
+                color: #721c24;
+                background: #f8d7da;
+                border: 1px solid #f5c6cb;
+                padding: 10px;
+                margin: 0 20px;
+                border-radius: 5px;
+            }
+            p{
+                padding: 10px 0;
+            }
+            p.info{
+                padding: 10px;
+                border: 1px solid #ffeeba;
+                border-radius: 5px;    
+                color: #333;
+                background: #fff3cd;
+                margin-top: 10px;
+            }
+            p.info span{
+                border-radius: 50%;
+                background: #007bff;
+                padding: 2px 9px;
+                color: #fff;
+            }
+            pre{
+                padding: 10px;
+                background: #333;
+                color: #fff;
+                font-family: 'sourcecode';
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <?php if (DEBUG_MODE): ?>
+            <h1><span>&#9888;</span>Oops ha ocurrido un error en <var><?= $place ?></var></h1>
+            <article>
+                <p><?= $message ?></p>
+                <?php if ($code): ?>
+                    <pre><code><?= $code ?></code></pre>
+                <?php endif; ?>
+                <?php if ($info): ?>
+                    <p class="info">
+                        <span>&#8505;</span><?= $info ?>
+                    </p>
+                <?php endif; ?>
+            </article>
+        <?php else: ?>
+            <h1><span>&#9888;</span>Oops ha ocurrido un error!</h1>     
+            <article>
+                <p>Se ha producido un error al procesar la página.</p>
+                <p><a href="javascript: history.go(-1)">Volver a la página anterior</a></p>
+                <p>Ir a al <a href="<?= SITE_URL ?>">Inicio de <?= SITE_NAME ?></a></p> 
+            </article>              
+        <?php endif; ?>
+    </body>
+</html>
