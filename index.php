@@ -9,6 +9,7 @@
  * @author Edison Ataucusi Romero <eataucusis@gmail.com>
  * @license http://creativecommons.org/licenses/by-sa/4.0/ Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional
  */
+
 /** Ruta raiz de la aplicación */
 define('APP_PATH', realpath(__DIR__) . '/');
 
