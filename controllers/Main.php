@@ -49,6 +49,7 @@ class Main extends \NsCore\Controller {
         $data = ['correct' => $lite->acum_correct(),
             'temperature' => $lite->acum_temperature(),
             'unknow' => $lite->acum_unknow(), 'mask' => $lite->acum_mask()];
+        $this->view->title = 'Control de acceso y temperatura';
         $this->view->render('main/index', $data);
     }
 
